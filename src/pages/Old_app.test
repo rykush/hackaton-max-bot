@@ -1,0 +1,41 @@
+.app-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-container {
+  flex: 1;
+  max-width: 1024px;
+  margin: 0 auto;
+  width: 100%;
+  padding-bottom: 80px;
+  overflow-y: auto;
+}
+
+.bottom-panel {
+  max-width: 1024px;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.bottom-panel-container {
+  max-width: 1024px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 20px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
