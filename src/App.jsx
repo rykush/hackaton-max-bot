@@ -1,5 +1,6 @@
+
 import { useState } from 'react';
-import { Panel, Container, Flex, ToolButton } from '@maxhub/max-ui';
+import { Flex, ToolButton } from '@maxhub/max-ui';
 import Home from './pages/Home';
 import Search from './pages/Search';
 import Dictionary from './pages/Dictionary';
@@ -23,30 +24,28 @@ const App = () => {
                 {renderPage()}
             </div>
 
-            <Panel mode="secondary" className="bottom-panel">
-                <Container className="bottom-panel-container">
-                    <Flex direction="row" gap={12} justify="space-between">
-                        <ToolButton
-                            appearance={currentPage === 'home' ? 'accent' : 'default'}
-                            onClick={() => setCurrentPage('home')}
-                        >
-                            🏠 Главная
-                        </ToolButton>
-                        <ToolButton
-                            appearance={currentPage === 'search' ? 'accent' : 'default'}
-                            onClick={() => setCurrentPage('search')}
-                        >
-                            🔍 Поиск
-                        </ToolButton>
-                        <ToolButton
-                            appearance={currentPage === 'dictionary' ? 'accent' : 'default'}
-                            onClick={() => setCurrentPage('dictionary')}
-                        >
-                            📚 Словарь
-                        </ToolButton>
-                    </Flex>
-                </Container>
-            </Panel>
+            <div className="bottom-panel">
+                <Flex direction="row" gap={8} justify="space-around" align="center">
+                    <ToolButton
+                        appearance={currentPage === 'home' ? 'accent' : 'default'}
+                        onClick={() => setCurrentPage('home')}
+                    >
+                        🏠 Главная
+                    </ToolButton>
+                    <ToolButton
+                        appearance={currentPage === 'search' ? 'accent' : 'default'}
+                        onClick={() => setCurrentPage('search')}
+                    >
+                        🔍 Поиск
+                    </ToolButton>
+                    <ToolButton
+                        appearance={currentPage === 'dictionary' ? 'accent' : 'default'}
+                        onClick={() => setCurrentPage('dictionary')}
+                    >
+                        📚 Словарь
+                    </ToolButton>
+                </Flex>
+            </div>
         </div>
     );
 };
