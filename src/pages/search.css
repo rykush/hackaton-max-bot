@@ -42,6 +42,7 @@
 .platform-panel {
   margin-bottom: 1rem;
   padding: 1rem;
+  border-radius: 10px;
 }
 
 .platform-content {
@@ -73,6 +74,7 @@
 
 .region-panel {
   padding: 1rem;
+  border-radius: 15px;
 }
 
 .region-content {
@@ -108,6 +110,16 @@
 .no-results-panel p {
   color: white;
   font-size: 1rem;
+}
+
+@media (prefers-color-scheme: light) {
+  .search-wrapper h1 {
+    color: black;
+  }
+
+  .search-wrapper h2 {
+    color: black;
+  }
 }
 
 @media (max-width: 768px) {

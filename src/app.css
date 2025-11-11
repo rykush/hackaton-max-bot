@@ -70,9 +70,9 @@ html, body {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  transition: all 0.3s ease;
 }
 
-/* Светлая тема */
 @media (prefers-color-scheme: light) {
   .app-wrapper,
   .app-container {
@@ -84,9 +84,30 @@ html, body {
     background-color: #f5f5f5 !important;
     border-top-color: #e0e0e0;
   }
+
+  .bottom-panel button[data-active="true"],
+  .bottom-panel button.active {
+    background-color: #646cff !important;
+    color: #ffffff !important;
+    font-weight: 600;
+  }
+
+  .bottom-panel button[data-active="false"],
+  .bottom-panel button:not(.active) {
+    background-color: #ffffff;
+    color: #000000;
+  }
+
+  .bottom-panel button:hover {
+    background-color: #e8e8e8;
+  }
+
+  .bottom-panel button[data-active="true"]:hover,
+  .bottom-panel button.active:hover {
+    background-color: #535bf2 !important;
+  }
 }
 
-/* Темная тема */
 @media (prefers-color-scheme: dark) {
   .app-wrapper,
   .app-container {
@@ -98,6 +119,28 @@ html, body {
     background-color: #2a2a2a !important;
     border-top-color: #404040;
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  .bottom-panel button[data-active="true"],
+  .bottom-panel button.active {
+    background-color: #747bff !important;
+    color: #ffffff !important;
+    font-weight: 600;
+  }
+
+  .bottom-panel button[data-active="false"],
+  .bottom-panel button:not(.active) {
+    background-color: #3a3a3a;
+    color: #ffffff;
+  }
+
+  .bottom-panel button:hover {
+    background-color: #4a4a4a;
+  }
+
+  .bottom-panel button[data-active="true"]:hover,
+  .bottom-panel button.active:hover {
+    background-color: #646cff !important;
   }
 }
 

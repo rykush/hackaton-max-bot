@@ -29,18 +29,24 @@ const App = () => {
                     <ToolButton
                         appearance={currentPage === 'home' ? 'accent' : 'default'}
                         onClick={() => setCurrentPage('home')}
+                        data-active={currentPage === 'home'}
+                        className={currentPage === 'home' ? 'active' : ''}
                     >
                         🏠 Главная
                     </ToolButton>
                     <ToolButton
                         appearance={currentPage === 'search' ? 'accent' : 'default'}
                         onClick={() => setCurrentPage('search')}
+                        data-active={currentPage === 'search'}
+                        className={currentPage === 'search' ? 'active' : ''}
                     >
                         🔍 Поиск
                     </ToolButton>
                     <ToolButton
                         appearance={currentPage === 'dictionary' ? 'accent' : 'default'}
                         onClick={() => setCurrentPage('dictionary')}
+                        data-active={currentPage === 'dictionary'}
+                        className={currentPage === 'dictionary' ? 'active' : ''}
                     >
                         📚 Словарь
                     </ToolButton>
