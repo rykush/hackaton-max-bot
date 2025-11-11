@@ -1,9 +1,43 @@
-import { useState } from 'react';
-import { CellAction, Panel } from '@maxhub/max-ui';
+import { CellAction, Panel, Button } from '@maxhub/max-ui';
+import { useState, useRef, useEffect } from 'react';
+import './dictionary.css';
 
 const Dictionary = () => {
   const [expandedTopic, setExpandedTopic] = useState(null);
   const [expandedQuestion, setExpandedQuestion] = useState(null);
+  const topicRefs = useRef({});
+  const questionRefs = useRef({});
+
+  const isUrl = (text) => {
+    try {
+      new URL(text);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  const renderAnswer = (answer) => {
+    if (isUrl(answer)) {
+      return (
+        <Button
+          appearance="themed"
+          asChild
+          mode="primary"
+          size="medium"
+        >
+          <a
+            href={answer}
+            rel="noreferrer"
+            target="_blank"
+          >
+            Открыть документ
+          </a>
+        </Button>
+      );
+    }
+    return <p>{answer}</p>;
+  };
 
   const topics = [
     {
@@ -278,9 +312,97 @@ const Dictionary = () => {
     }
   ];
 
+   useEffect(() => {
+    Object.keys(topicRefs.current).forEach((topicId) => {
+      const element = topicRefs.current[topicId];
+      if (!element) return;
+
+      if (expandedTopic === parseInt(topicId)) {
+        element.style.display = 'block';
+        const height = element.scrollHeight;
+        element.style.height = '0px';
+        element.style.opacity = '0';
+        element.style.transform = 'translateY(-10px)';
+        
+        requestAnimationFrame(() => {
+          element.style.transition = 'height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+          element.style.height = `${height}px`;
+          element.style.opacity = '1';
+          element.style.transform = 'translateY(0)';
+        });
+
+        setTimeout(() => {
+          element.style.height = 'auto';
+        }, 400);
+      } else if (element.style.display === 'block') {
+        const height = element.scrollHeight;
+        element.style.height = `${height}px`;
+        
+        requestAnimationFrame(() => {
+          element.style.transition = 'height 0.3s cubic-bezier(0.4, 0, 0.6, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.6, 1), transform 0.3s cubic-bezier(0.4, 0, 0.6, 1)';
+          element.style.height = '0px';
+          element.style.opacity = '0';
+          element.style.transform = 'translateY(-20px)';
+        });
+
+        setTimeout(() => {
+          element.style.display = 'none';
+        }, 300);
+      }
+    });
+  }, [expandedTopic]);
+
+  useEffect(() => {
+    Object.keys(questionRefs.current).forEach((questionId) => {
+      const element = questionRefs.current[questionId];
+      if (!element) return;
+
+      if (expandedQuestion === parseInt(questionId)) {
+        element.style.display = 'block';
+        const height = element.scrollHeight;
+        element.style.maxHeight = '0px';
+        element.style.opacity = '0';
+        element.style.transform = 'translateY(-10px)';
+        element.style.padding = '0 16px';
+        
+        requestAnimationFrame(() => {
+          element.style.transition = 'max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1), padding 0.35s cubic-bezier(0.4, 0, 0.2, 1), transform 0.35s cubic-bezier(0.4, 0, 0.2, 1)';
+          element.style.maxHeight = `${height + 50}px`;
+          element.style.opacity = '1';
+          element.style.padding = '16px';
+          element.style.transform = 'translateY(0)';
+        });
+
+        setTimeout(() => {
+          element.style.maxHeight = 'none';
+        }, 350);
+      } else if (element.style.display === 'block') {
+        const height = element.scrollHeight;
+        element.style.maxHeight = `${height}px`;
+        
+        requestAnimationFrame(() => {
+          element.style.transition = 'max-height 0.25s cubic-bezier(0.4, 0, 0.6, 1), opacity 0.25s cubic-bezier(0.4, 0, 0.6, 1), padding 0.25s cubic-bezier(0.4, 0, 0.6, 1), transform 0.25s cubic-bezier(0.4, 0, 0.6, 1)';
+          element.style.maxHeight = '0px';
+          element.style.opacity = '0';
+          element.style.padding = '0 16px';
+          element.style.transform = 'translateY(-15px)';
+        });
+
+        setTimeout(() => {
+          element.style.display = 'none';
+        }, 250);
+      }
+    });
+  }, [expandedQuestion]);
+
   const toggleTopic = (topicId) => {
-    setExpandedTopic(expandedTopic === topicId ? null : topicId);
-    setExpandedQuestion(null);
+    if (expandedTopic === topicId) {
+      setExpandedQuestion(null);
+      setExpandedTopic(null);
+    } else {
+      setExpandedQuestion(null);
+      setExpandedTopic(topicId);
+    }
   };
 
   const toggleQuestion = (questionId) => {
@@ -288,42 +410,52 @@ const Dictionary = () => {
   };
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h1 style={{ marginBottom: '20px' }}>Словарь по ОРВ</h1>
+    <div className="dictionary-wrapper">
+      <h1>Словарь по ОРВ</h1>
       
       {topics.map((topic) => (
-        <div key={topic.id} style={{ marginBottom: '10px' }}>
-          <CellAction
-            height="normal"
-            mode="primary"
-            onClick={() => toggleTopic(topic.id)}
-            showChevron
-          >
-            {topic.title}
-          </CellAction>
+        <div key={topic.id} className="topic-item">
+          <div className={`topic-header ${expandedTopic === topic.id ? 'expanded' : ''}`}>
+            <CellAction
+              height="normal"
+              mode="primary"
+              onClick={() => toggleTopic(topic.id)}
+              showChevron
+            >
+              {topic.title}
+            </CellAction>
+          </div>
           
-          {expandedTopic === topic.id && (
-            <div style={{ paddingLeft: '20px' }}>
-              {topic.questions.map((q) => (
-                <div key={q.id} style={{ marginTop: '5px' }}>
-                  <CellAction
-                    height="normal"
-                    mode="secondary"
-                    onClick={() => toggleQuestion(q.id)}
-                    showChevron
-                  >
-                    {q.question}
-                  </CellAction>
-                  
-                  {expandedQuestion === q.id && (
-                    <Panel mode="secondary" style={{ margin: '10px 0', padding: '15px' }}>
-                      <p>{q.answer}</p>
-                    </Panel>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
+          <div 
+            ref={(el) => (topicRefs.current[topic.id] = el)}
+            className="questions-container"
+            style={{ display: 'none', overflow: 'hidden' }}
+          >
+            {topic.questions.map((q) => (
+              <div 
+                key={q.id} 
+                className={`question-container ${expandedQuestion === q.id ? 'expanded' : ''}`}
+              >
+                <CellAction
+                  height="normal"
+                  mode="secondary"
+                  onClick={() => toggleQuestion(q.id)}
+                  showChevron
+                >
+                  {q.question}
+                </CellAction>
+                
+                <Panel 
+                  ref={(el) => (questionRefs.current[q.id] = el)}
+                  mode="secondary" 
+                  className="answer-panel"
+                  style={{ display: 'none', overflow: 'hidden' }}
+                >
+                  {renderAnswer(q.answer)}
+                </Panel>
+              </div>
+            ))}
+          </div>
         </div>
       ))}
     </div>
