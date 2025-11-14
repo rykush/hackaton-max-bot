@@ -30,8 +30,7 @@ const Home = () => {
       const data = await getProjects(100);
       const popularProjects = data.filter(p => p.views > 100);
       setProjects(popularProjects);
-      
-      // Извлекаем уникальные ОКВЭД из всех проектов
+
       const allOkveds = new Set();
       popularProjects.forEach(p => {
         if (Array.isArray(p.okveds)) {
@@ -129,7 +128,8 @@ const Home = () => {
       <h1 style={{ marginBottom: '20px' }}>Популярные проекты нормативных актов</h1>
       
 
-      <Panel mode="secondary" style={{ padding: '20px', marginBottom: '20px' }}>
+
+      <Panel mode="secondary" style={{ padding: '20px', borderRadius: '10px' , marginBottom: '20px'}}>
         <h3 style={{ margin: '0 0 15px 0', fontSize: '16px' }}>Фильтры</h3>
         
         <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginBottom: '15px' }}>
@@ -148,12 +148,22 @@ const Home = () => {
               onChange={(e) => setSelectedOkved(e.target.value)}
               style={{
                 width: '100%',
-                padding: '10px',
+                padding: '10px 12px',
                 fontSize: '14px',
                 borderRadius: '8px',
                 border: '1px solid #ddd',
-                backgroundColor: 'white',
-                cursor: 'pointer'
+                backgroundColor: '#fff',
+                cursor: 'pointer',
+                transition: 'border-color 0.2s, box-shadow 0.2s',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.05)'
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = '#4CAF50';
+                e.target.style.boxShadow = '0 0 0 3px rgba(76, 175, 80, 0.1)';
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = '#ddd';
+                e.target.style.boxShadow = '0 1px 3px rgba(0,0,0,0.05)';
               }}
             >
               <option value="all">Все виды деятельности</option>
@@ -177,12 +187,22 @@ const Home = () => {
               onChange={(e) => setSelectedAuthority(e.target.value)}
               style={{
                 width: '100%',
-                padding: '10px',
+                padding: '10px 12px',
                 fontSize: '14px',
                 borderRadius: '8px',
                 border: '1px solid #ddd',
-                backgroundColor: 'white',
-                cursor: 'pointer'
+                backgroundColor: '#fff',
+                cursor: 'pointer',
+                transition: 'border-color 0.2s, box-shadow 0.2s',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.05)'
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = '#4CAF50';
+                e.target.style.boxShadow = '0 0 0 3px rgba(76, 175, 80, 0.1)';
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = '#ddd';
+                e.target.style.boxShadow = '0 1px 3px rgba(0,0,0,0.05)';
               }}
             >
               <option value="all">Все органы</option>
@@ -238,7 +258,8 @@ const Home = () => {
               cursor: 'pointer',
               transition: 'transform 0.2s, box-shadow 0.2s',
               display: 'flex',
-              flexDirection: 'column'
+              flexDirection: 'column',
+              borderRadius: '10px'
             }}
             onClick={() => handleProjectClick(project.id)}
             onMouseEnter={(e) => {
@@ -278,7 +299,7 @@ const Home = () => {
 
             <div style={{ 
               fontSize: '13px',
-              color: '#666',
+              color: '#cacacaff',
               marginBottom: '8px'
             }}>
               <div style={{ marginBottom: '4px' }}>
@@ -300,7 +321,7 @@ const Home = () => {
               display: 'flex',
               justifyContent: 'space-between',
               fontSize: '12px',
-              color: '#999',
+              color: '#cacacaff',
               paddingTop: '12px',
               borderTop: '1px solid #eee'
             }}>
