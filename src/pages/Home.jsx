@@ -1,3 +1,4 @@
+
 import { Button, Panel, Container, Grid } from '@maxhub/max-ui';
 import { useState, useEffect } from 'react';
 import { getProjects } from '../api/projects';
@@ -8,11 +9,11 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   
-  const [selectedType, setSelectedType] = useState('all');
+  const [selectedOkved, setSelectedOkved] = useState('all');
   const [selectedAuthority, setSelectedAuthority] = useState('all');
   
 
-  const [types, setTypes] = useState([]);
+  const [okveds, setOkveds] = useState([]);
   const [authorities, setAuthorities] = useState([]);
 
   useEffect(() => {
@@ -21,7 +22,7 @@ const Home = () => {
 
   useEffect(() => {
     applyFilters();
-  }, [projects, selectedType, selectedAuthority]);
+  }, [projects, selectedOkved, selectedAuthority]);
 
   const loadProjects = async () => {
     try {
@@ -30,11 +31,19 @@ const Home = () => {
       const popularProjects = data.filter(p => p.views > 100);
       setProjects(popularProjects);
       
-
-      const uniqueTypes = [...new Set(popularProjects.map(p => p.type).filter(Boolean))];
+      // Извлекаем уникальные ОКВЭД из всех проектов
+      const allOkveds = new Set();
+      popularProjects.forEach(p => {
+        if (Array.isArray(p.okveds)) {
+          p.okveds.forEach(okved => allOkveds.add(okved));
+        } else if (typeof p.okveds === 'string' && p.okveds) {
+          allOkveds.add(p.okveds);
+        }
+      });
+      
       const uniqueAuthorities = [...new Set(popularProjects.map(p => p.authority).filter(Boolean))];
       
-      setTypes(uniqueTypes.sort());
+      setOkveds(Array.from(allOkveds).sort());
       setAuthorities(uniqueAuthorities.sort());
       
       setError(null);
@@ -49,8 +58,13 @@ const Home = () => {
   const applyFilters = () => {
     let filtered = [...projects];
     
-    if (selectedType !== 'all') {
-      filtered = filtered.filter(p => p.type === selectedType);
+    if (selectedOkved !== 'all') {
+      filtered = filtered.filter(p => {
+        if (Array.isArray(p.okveds)) {
+          return p.okveds.includes(selectedOkved);
+        }
+        return p.okveds === selectedOkved;
+      });
     }
     
     if (selectedAuthority !== 'all') {
@@ -61,7 +75,7 @@ const Home = () => {
   };
 
   const resetFilters = () => {
-    setSelectedType('all');
+    setSelectedOkved('all');
     setSelectedAuthority('all');
   };
 
@@ -127,11 +141,11 @@ const Home = () => {
               fontSize: '14px',
               fontWeight: '500'
             }}>
-              Тип документа:
+              Вид экономической деятельности (ОКВЭД):
             </label>
             <select
-              value={selectedType}
-              onChange={(e) => setSelectedType(e.target.value)}
+              value={selectedOkved}
+              onChange={(e) => setSelectedOkved(e.target.value)}
               style={{
                 width: '100%',
                 padding: '10px',
@@ -142,9 +156,9 @@ const Home = () => {
                 cursor: 'pointer'
               }}
             >
-              <option value="all">Все типы</option>
-              {types.map(type => (
-                <option key={type} value={type}>{type}</option>
+              <option value="all">Все виды деятельности</option>
+              {okveds.map(okved => (
+                <option key={okved} value={okved}>{okved}</option>
               ))}
             </select>
           </div>
@@ -185,7 +199,7 @@ const Home = () => {
             mode="secondary"
             onClick={resetFilters}
             size="small"
-            disabled={selectedType === 'all' && selectedAuthority === 'all'}
+            disabled={selectedOkved === 'all' && selectedAuthority === 'all'}
           >
             Сбросить фильтры
           </Button>
@@ -270,11 +284,11 @@ const Home = () => {
               <div style={{ marginBottom: '4px' }}>
                 <strong>Орган:</strong> {project.authority || 'Не указан'}
               </div>
-              {project.type && (
-                <div style={{ marginBottom: '4px' }}>
-                  <strong>Тип:</strong> {project.type}
-                </div>
-              )}
+            {project.okveds && (
+              <div style={{ marginBottom: '4px' }}>
+                <strong>ОКВЭД:</strong> {Array.isArray(project.okveds) ? project.okveds.join(', ') : project.okveds}
+              </div>
+            )}
               {project.procedure && (
                 <div style={{ marginBottom: '4px' }}>
                   <strong>Процедура:</strong> {project.procedure}

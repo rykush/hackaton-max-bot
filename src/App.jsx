@@ -4,6 +4,9 @@ import { Flex, ToolButton } from '@maxhub/max-ui';
 import Home from './pages/Home';
 import Search from './pages/Search';
 import Dictionary from './pages/Dictionary';
+import discussionIcon from './assets/img/discussion.png';
+import websiteIcon from './assets/img/website.png';
+import dictionaryIcon from './assets/img/dictionary.png';
 import './App.css';
 
 const App = () => {
@@ -32,7 +35,10 @@ const App = () => {
                         data-active={currentPage === 'home'}
                         className={currentPage === 'home' ? 'active' : ''}
                     >
-                        🏠 Главная
+                        <Flex direction="row" gap={6} align="center" justify="center">
+                            <img src={discussionIcon} alt="Обсуждения" style={{ width: '15px', height: '15px', flexShrink: 0 }} />
+                            <span>Обсуждения</span>
+                        </Flex>
                     </ToolButton>
                     <ToolButton
                         appearance={currentPage === 'search' ? 'accent' : 'default'}
@@ -40,7 +46,10 @@ const App = () => {
                         data-active={currentPage === 'search'}
                         className={currentPage === 'search' ? 'active' : ''}
                     >
-                        🔍 Поиск
+                        <Flex direction="row" gap={6} align="center" justify="center">
+                            <img src={websiteIcon} alt="Площадки" style={{ width: '15px', height: '15px', flexShrink: 0 }} />
+                            <span>Площадки</span>
+                        </Flex>
                     </ToolButton>
                     <ToolButton
                         appearance={currentPage === 'dictionary' ? 'accent' : 'default'}
@@ -48,7 +57,10 @@ const App = () => {
                         data-active={currentPage === 'dictionary'}
                         className={currentPage === 'dictionary' ? 'active' : ''}
                     >
-                        📚 Словарь
+                        <Flex direction="row" gap={6} align="center" justify="center">
+                            <img src={dictionaryIcon} alt="Словарь" style={{ width: '15px', height: '15px', flexShrink: 0 }} />
+                            <span>Словарь</span>
+                        </Flex>
                     </ToolButton>
                 </Flex>
             </div>
