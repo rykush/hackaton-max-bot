@@ -7,7 +7,7 @@ import Dictionary from './pages/Dictionary';
 import discussionIcon from './assets/img/discussion.png';
 import websiteIcon from './assets/img/website.png';
 import dictionaryIcon from './assets/img/dictionary.png';
-import './App.css';
+import './app.css';
 
 const App = () => {
     const [currentPage, setCurrentPage] = useState('home');
