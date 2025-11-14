@@ -1,4 +1,4 @@
-const API_BASE_URL = '/projects.json';
+import projectsData from '../../public/projects.json';
 
 let cachedProjects = null;
 
@@ -8,15 +8,9 @@ const loadAllProjects = async () => {
   }
 
   try {
-    const response = await fetch('/projects.json');
-    
-    if (!response.ok) {
-      throw new Error(`Не удалось загрузить проекты. Статус: ${response.status}`);
-    }
-    
-    const data = await response.json();
-    cachedProjects = data;
-    return data;
+    // Используем импортированные данные
+    cachedProjects = projectsData;
+    return projectsData;
   } catch (error) {
     console.error('Ошибка загрузки проектов:', error);
     throw error;

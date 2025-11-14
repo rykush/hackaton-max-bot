@@ -11,6 +11,7 @@ const Home = () => {
   const [selectedType, setSelectedType] = useState('all');
   const [selectedAuthority, setSelectedAuthority] = useState('all');
   
+
   const [types, setTypes] = useState([]);
   const [authorities, setAuthorities] = useState([]);
 
@@ -26,11 +27,12 @@ const Home = () => {
     try {
       setLoading(true);
       const data = await getProjects(100);
-      setProjects(data);
+      const popularProjects = data.filter(p => p.views > 100);
+      setProjects(popularProjects);
       
 
-      const uniqueTypes = [...new Set(data.map(p => p.type).filter(Boolean))];
-      const uniqueAuthorities = [...new Set(data.map(p => p.authority).filter(Boolean))];
+      const uniqueTypes = [...new Set(popularProjects.map(p => p.type).filter(Boolean))];
+      const uniqueAuthorities = [...new Set(popularProjects.map(p => p.authority).filter(Boolean))];
       
       setTypes(uniqueTypes.sort());
       setAuthorities(uniqueAuthorities.sort());
