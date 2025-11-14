@@ -4,18 +4,37 @@ import { getProjects } from '../api/projects';
 
 const Home = () => {
   const [projects, setProjects] = useState([]);
+  const [filteredProjects, setFilteredProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  
+  const [selectedType, setSelectedType] = useState('all');
+  const [selectedAuthority, setSelectedAuthority] = useState('all');
+  
+  const [types, setTypes] = useState([]);
+  const [authorities, setAuthorities] = useState([]);
 
   useEffect(() => {
     loadProjects();
   }, []);
+
+  useEffect(() => {
+    applyFilters();
+  }, [projects, selectedType, selectedAuthority]);
 
   const loadProjects = async () => {
     try {
       setLoading(true);
       const data = await getProjects(100);
       setProjects(data);
+      
+
+      const uniqueTypes = [...new Set(data.map(p => p.type).filter(Boolean))];
+      const uniqueAuthorities = [...new Set(data.map(p => p.authority).filter(Boolean))];
+      
+      setTypes(uniqueTypes.sort());
+      setAuthorities(uniqueAuthorities.sort());
+      
       setError(null);
     } catch (err) {
       setError('Не удалось загрузить проекты');
@@ -23,6 +42,25 @@ const Home = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const applyFilters = () => {
+    let filtered = [...projects];
+    
+    if (selectedType !== 'all') {
+      filtered = filtered.filter(p => p.type === selectedType);
+    }
+    
+    if (selectedAuthority !== 'all') {
+      filtered = filtered.filter(p => p.authority === selectedAuthority);
+    }
+    
+    setFilteredProjects(filtered);
+  };
+
+  const resetFilters = () => {
+    setSelectedType('all');
+    setSelectedAuthority('all');
   };
 
   const handleProjectClick = (projectId) => {
@@ -74,10 +112,89 @@ const Home = () => {
     <Container style={{ padding: '20px' }}>
       <h1 style={{ marginBottom: '20px' }}>Популярные проекты нормативных актов</h1>
       
-      <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <p style={{ margin: 0 }}>
-          Проектов: {projects.length}
-        </p>
+
+      <Panel mode="secondary" style={{ padding: '20px', marginBottom: '20px' }}>
+        <h3 style={{ margin: '0 0 15px 0', fontSize: '16px' }}>Фильтры</h3>
+        
+        <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', marginBottom: '15px' }}>
+
+          <div style={{ flex: '1', minWidth: '250px' }}>
+            <label style={{ 
+              display: 'block', 
+              marginBottom: '8px', 
+              fontSize: '14px',
+              fontWeight: '500'
+            }}>
+              Тип документа:
+            </label>
+            <select
+              value={selectedType}
+              onChange={(e) => setSelectedType(e.target.value)}
+              style={{
+                width: '100%',
+                padding: '10px',
+                fontSize: '14px',
+                borderRadius: '8px',
+                border: '1px solid #ddd',
+                backgroundColor: 'white',
+                cursor: 'pointer'
+              }}
+            >
+              <option value="all">Все типы</option>
+              {types.map(type => (
+                <option key={type} value={type}>{type}</option>
+              ))}
+            </select>
+          </div>
+
+          <div style={{ flex: '1', minWidth: '250px' }}>
+            <label style={{ 
+              display: 'block', 
+              marginBottom: '8px', 
+              fontSize: '14px',
+              fontWeight: '500'
+            }}>
+              Орган власти:
+            </label>
+            <select
+              value={selectedAuthority}
+              onChange={(e) => setSelectedAuthority(e.target.value)}
+              style={{
+                width: '100%',
+                padding: '10px',
+                fontSize: '14px',
+                borderRadius: '8px',
+                border: '1px solid #ddd',
+                backgroundColor: 'white',
+                cursor: 'pointer'
+              }}
+            >
+              <option value="all">Все органы</option>
+              {authorities.map(authority => (
+                <option key={authority} value={authority}>{authority}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+          <Button
+            appearance="themed"
+            mode="secondary"
+            onClick={resetFilters}
+            size="small"
+            disabled={selectedType === 'all' && selectedAuthority === 'all'}
+          >
+            Сбросить фильтры
+          </Button>
+          
+          <span style={{ fontSize: '14px', color: '#666' }}>
+            Найдено: {filteredProjects.length} из {projects.length}
+          </span>
+        </div>
+      </Panel>
+
+      <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'flex-end' }}>
         <Button
           appearance="themed"
           mode="secondary"
@@ -96,7 +213,7 @@ const Home = () => {
         gapY={20}
         justify="start"
       >
-        {projects.map((project) => (
+        {filteredProjects.map((project) => (
           <Panel
             key={project.id}
             mode="primary"
@@ -156,7 +273,7 @@ const Home = () => {
                   <strong>Тип:</strong> {project.type}
                 </div>
               )}
-                            {project.procedure && (
+              {project.procedure && (
                 <div style={{ marginBottom: '4px' }}>
                   <strong>Процедура:</strong> {project.procedure}
                 </div>
@@ -178,9 +295,18 @@ const Home = () => {
         ))}
       </Grid>
 
-      {projects.length === 0 && (
+      {filteredProjects.length === 0 && (
         <Panel style={{ padding: '40px', textAlign: 'center' }}>
-          <p>На данный момент проектов нет</p>
+          <p>Проектов с выбранными фильтрами не найдено</p>
+          <Button
+            appearance="themed"
+            mode="secondary"
+            onClick={resetFilters}
+            size="medium"
+            style={{ marginTop: '15px' }}
+          >
+            Сбросить фильтры
+          </Button>
         </Panel>
       )}
     </Container>

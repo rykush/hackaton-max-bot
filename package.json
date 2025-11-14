@@ -5,12 +5,9 @@
   "homepage": "https://rykush.github.com/hackaton-max-bot",
   "type": "module",
   "scripts": {
-    "server": "node index.js",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "dev": "concurrently \"npm run dev:vite\" \"npm run dev:server\"",
-    "dev:vite": "vite",
-    "dev:server": "nodemon index.js",
+    "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
