@@ -1,20 +1,29 @@
-<<<<<<< HEAD
-# React + Vite
+Для работы проекта нужно установить Node.js минимальной версии 22 https://nodejs.org/en/download
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Для дальнейшей работы нужно скачать проект и разархивировать его, установить зависимости и запустить приложение:
 
-Currently, two official plugins are available:
+Если используете VScode:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Способ 1:
+1) открываем новый терминал и прописываем npm install, автоматически установятся все зависимости из package.json
+2) прописываем после полной установки npm run dev, запустится локальный хост и ссылку выдаст в терминал, по ней можно перейти и посмотреть проект
 
-## React Compiler
+Способ 2:
+1) устанавливаем docker на компьютер https://www.docker.com/ и открываем его
+2) открываем новый терминал и прописываем docker-compose up
+Все зависимости установятся автоматически и локальный хост запустится, ссылка на него будет в терминале
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Если используете обычную командную строку
 
-## Expanding the ESLint configuration
+Способ 1:
+1) открываете папку с проектом, в пустом месте кликаем shift + правая кнопка мыши, запустить терминал здесь (или powershell)
+2) прописываем npm install, после полной установки npm run dev, в терминале появится ссылка на локальный хост, переходим по ней
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-=======
-# hackaton-max-bot
->>>>>>> 69b76dc209328219e0213166b45d6a61c42653aa
+Способ 2:
+1) устанавливаем docker на компьютер https://www.docker.com/ и открываем его
+2) открываем командную строку или powershell и прописываем docker-compose up
+Все зависимости установятся автоматически и локальный хост запустится, ссылка на него будет в командной строке
+
+
+
+
