@@ -28,7 +28,7 @@
 
 1) На компьютере должен быть установлен браузер google chrome и python https://www.python.org/downloads/
 2) Для установки контента вводим в терминал python -m venv venv это установит виртуальную среду, далее переходим в виртуальную среду venv/scripts/activate и устанавливаем зависимости pip install -r requirements.txt
-3)Далее запускаем python файл командой py main_parser_full_auto.py (если не работает python main_parser_full_auto.py)
+3) Далее запускаем python файл командой py main_parser_full_auto.py (если не работает python main_parser_full_auto.py)
 
 У нас должен открыться браузер, автоматически настроиться фильтры и настройки таблицы и спарситься данные в бд. Для работы со статическими данными GH Pages просит использовать json файл, поэтому после парсинга пишим в терминал deactivate и вводим в нашем проекте node export.js (из бд файл конвертируется в json) 
 
