@@ -24,6 +24,32 @@
 2) открываем командную строку или powershell и прописываем docker-compose up
 Все зависимости установятся автоматически и локальный хост запустится, ссылка на него будет в командной строке
 
+Как использовать парсер из проекта
 
+На компьютере должен быть установлен браузер google chrome и python https://www.python.org/downloads/
+Для установки контента вводим в терминал python -m venv venv это установит виртуальную среду, далее переходим в виртуальную среду venv/scripts/activate и устанавливаем зависимости pip install -r requirements.txt
+Далее запускаем python файл командой py main_parser_full_auto.py (если не работает python main_parser_full_auto.py)
+У нас должен открыться браузер, автоматически настроиться фильтры и настройки таблицы и спарситься данные в бд. Для работы со статическими данными GH Pages просит использовать json файл, поэтому после парсинга пишим в терминал deactivate и вводим в нашем проекте node export.js (из бд файл конвертируется в json) 
 
+# Установленные библиотеки проекта
+- **react@18.3.1** - JavaScript библиотека для создания пользовательских интерфейсов
+- **react-dom@18.3.1** - Пакет для работы React с DOM
+- **react-router-dom@7.9.5** - Библиотека маршрутизации для React приложений
+- **@maxhub/max-ui@0.1.12** - Компоненты пользовательского интерфейса MaxHub
+- **better-sqlite3@12.4.1** - Синхронная SQLite3 библиотека для Node.js
+- **sql.js@1.13.0** - SQLite реализованная на JavaScript/WebAssembly
+- **express@5.1.0** - Веб-фреймворк для Node.js
+- **cors@2.8.5** - Middleware для обработки CORS запросов
+- **vite@7.2.1** - Быстрый инструмент сборки для веб-приложений
+- **@vitejs/plugin-react@5.1.0** - Плагин Vite для React с поддержкой Fast Refresh
+- **eslint@9.39.1** - Инструмент для анализа кода JavaScript
+- **@eslint/js@9.39.1** - Конфигурация ESLint для JavaScript
+- **eslint-plugin-react-hooks@5.2.0** - Плагин ESLint для React Hooks
+- **eslint-plugin-react-refresh@0.4.24** - Плагин ESLint для React Refresh
+- **@types/react@19.2.2** - TypeScript типы для React
+- **@types/react-dom@19.2.2** - TypeScript типы для React DOM
+- **globals@16.5.0** - Глобальные переменные для различных окружений
+- **nodemon@3.1.11** - Утилита для автоматического перезапуска Node.js приложения
+- **concurrently@9.2.1** - Утилита для одновременного запуска нескольких команд
+- **gh-pages@6.3.0** - Публикация файлов на GitHub Pages
 
